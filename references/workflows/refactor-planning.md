@@ -10,41 +10,14 @@ Create or update a safe, scoped refactor plan only when refactor-related discuss
 
 Use this workflow when the user discusses:
 
-- refactoring
-- technical debt
-- maintainability issues
-- design smells
-- architecture evolution
-- risky or confusing design that may become actionable
+- refactoring;
+- technical debt;
+- maintainability issues;
+- design smells;
+- architecture evolution;
+- risky or confusing design that may become actionable.
 
 Do not trigger this workflow from snapshot data alone.
-
----
-
-## Inputs
-
-- user refactor question or intent
-- existing `design-digest.md`
-- scoped code evidence
-- observed pain points
-- known constraints
-- existing `refactor-plan.md`, if any
-
----
-
-## Output
-
-Create or update:
-
-```text
-.repo-mentor/modules/<module-id>/refactor-plan.md
-```
-
-Use:
-
-```text
-assets/templates/refactor-plan.template.md
-```
 
 ---
 
@@ -75,9 +48,3 @@ assets/templates/refactor-plan.template.md
 - Include validation before structural change.
 - Include rollback strategy.
 - Do not recommend refactoring solely because a file is large.
-
----
-
-## Completion Criteria
-
-The plan should be safe enough that a maintainer can execute it incrementally while preserving existing behavior.

@@ -1,175 +1,61 @@
 ---
 name: repo-mentor
-description: Helps engineers learn the design of a scoped codebase module, distill design intent, engineering trade-offs, reusable engineering lessons, and maintain module-specific onboarding, design-digest, engineering-lessons, and refactor notes through conversation.
+description: Learn and mentor a scoped codebase module, answer design questions, distill reusable engineering lessons, and maintain onboarding, design-digest, engineering-lessons, and refactor notes.
 ---
 
 # repo-mentor
 
 ## Mission
 
-`repo-mentor` is a scoped codebase mentoring and engineering knowledge distillation skill.
+`repo-mentor` helps engineers understand a selected module in an unfamiliar repository and distill durable engineering knowledge from it.
 
-It helps engineers understand the current design of a selected module, distill the original authors' design intent and engineering trade-offs, extract reusable engineering lessons, and maintain durable Markdown notes through conversation.
+It supports:
 
-The skill is optimized for learning and maintaining an unfamiliar codebase module over time, and for turning module-specific design understanding into reusable engineering knowledge. It is not for producing one-off repository summaries or whole-repository architecture judgments.
+- scoped codebase learning;
+- design intent and trade-off analysis;
+- conversation-first technical exploration;
+- onboarding note generation;
+- reusable engineering lesson extraction;
+- safe refactor planning when explicitly triggered.
 
----
+It is **not** a whole-repository architecture reviewer by default.
 
-## When To Use This Skill
+## Operating Principles
 
-Use this skill when the user wants to:
+1. **Module-scoped by default**  
+   Stay within the user-selected module scope. Discuss external modules only as interfaces or boundaries unless the user updates scope.
 
-- Understand an unfamiliar codebase module.
-- Onboard a newcomer to a scoped part of a repository.
-- Learn why the existing code may have been designed this way.
-- Extract design takeaways from good implementation choices.
-- Extract lessons learned from confusing, risky, or problematic design choices.
-- Distill reusable engineering lessons from module-specific design details.
-- Ask detailed technical questions about the selected module.
-- Explore code through conversation first, then summarize into durable notes later.
-- Maintain living onboarding, design-learning, and engineering-lessons notes.
-- Discuss safe, scoped refactoring or architecture evolution.
+2. **Evidence before inference**  
+   Separate facts, inferences, and open questions. Mark inferred design intent as `Inference`.
 
-Do not use this skill for broad, whole-repository analysis unless the user explicitly needs help selecting or refining a module scope.
+3. **Design learning over code judging**  
+   Understand constraints, trade-offs, and original design intent before judging code quality.
 
----
+4. **Snapshot is evidence, not conclusion**  
+   Use `snapshot.json` as structural evidence only. Never infer design quality, architecture style, or refactor need from snapshot alone.
 
-## Core Principles
+5. **Documentation is not automatically authoritative**  
+   README/docs/tests/comments may be clues, but do not treat them as design truth without scoped code evidence or user confirmation.
 
-### 1. Module-Scoped By Default
+6. **Conversation-first is valid**  
+   If the user wants to ask questions first, answer in conversation and defer file updates until they ask to summarize.
 
-`repo-mentor` must operate within the user-specified module scope.
+7. **Separate document roles**  
+   - `onboarding.md`: concise newcomer orientation.
+   - `design-digest.md`: module-specific design deep dive.
+   - `engineering-lessons.md`: reusable, applicability-aware engineering knowledge.
+   - `refactor-plan.md`: only when refactoring is explicitly discussed.
 
-Do not expand analysis to the entire repository unless the user explicitly requests a Scope Discovery step.
-
-When a question crosses the current scope boundary, discuss only the interface, dependency, or integration boundary unless the user updates the scope.
-
-### 2. Design Learning Over Code Judging
-
-The goal is not to quickly label code as good or bad.
-
-First try to understand:
-
-- What problem the current design solves.
-- What constraints may have shaped the implementation.
-- What trade-offs are visible from the code.
-- What design choices are worth learning from.
-- What lessons should be captured for future maintainers.
-
-Avoid superficial judgments.
-
-### 3. Evidence Before Inference
-
-Distinguish clearly between:
-
-- Facts observed from code, snapshot, or user-provided evidence.
-- Inferences about design intent.
-- Open questions that still need confirmation.
-
-When design intent is inferred, mark it explicitly as `Inference`.
-
-### 4. Documentation Is Not Automatically Authoritative
-
-README files, docs, comments, tests, and commit messages may provide clues, but they must not be treated as authoritative design truth by default.
-
-Prefer scoped code evidence and user confirmation.
-
-### 5. Snapshot Is Evidence, Not Conclusion
-
-If a module-specific `snapshot.json` is available, use it as structural evidence only.
-
-Do not infer design intent, code quality, or refactor needs solely from snapshot fields.
-
-Large files, candidate entry points, directory names, and config files are reading signals, not design conclusions.
-
-### 6. Conversation-First Is Supported
-
-The user may explore the code through conversation first and defer document generation until they explicitly ask to summarize or update notes.
-
-In conversation-first mode:
-
-- Answer scoped code questions directly.
-- Do not force file generation or file updates.
-- Keep answers structured so they can be summarized later.
-- Track useful observations in the conversation as facts, inferences, candidate takeaways, candidate lessons, hidden assumptions, open questions, and possible refactor topics.
-- When the user asks to summarize, route stable conclusions into the correct repo-mentor documents.
-
-### 7. Keep Onboarding Concise
-
-`onboarding.md` should help a newcomer build a practical mental model quickly.
-
-Move detailed design explanations, workflows, trade-offs, assumptions, and module-specific observations into `design-digest.md`.
-
-### 8. Distill Reusable Engineering Lessons Separately
-
-`engineering-lessons.md` captures reusable engineering knowledge distilled from the scoped module.
-
-It should contain transferable design takeaways, lessons learned, design heuristics, anti-patterns, applicability conditions, and links back to evidence.
-
-Do not use `engineering-lessons.md` for module-specific implementation details. Keep those in `design-digest.md`.
-
-Do not present lessons as universal best practices. Prefer applicability-aware guidance such as:
-
-- Use this when...
-- Avoid this when...
-- This trade-off works if...
-- This lesson may not apply when...
-
-### 9. Refactor Only When Triggered
-
-Do not create or update `refactor-plan.md` from snapshot data alone.
-
-Only create or update it when the user discusses:
-
-- Refactoring.
-- Technical debt.
-- Maintainability issues.
-- Design smells.
-- Architecture evolution.
-- Risky or confusing design that may become actionable.
-
----
-
-## Skill Package Layout
-
-Expected package layout:
-
-```text
-repo-mentor/
-├── SKILL.md
-├── scripts/
-│   └── codebase_analyzer.py
-├── references/
-│   ├── analyzer-output-contract.md
-│   ├── snapshot-consumption-contract.md
-│   ├── document-routing-contract.md
-│   └── workflows/
-│       ├── scope-discovery.md
-│       ├── scoped-snapshot-intake.md
-│       ├── conversation-first-learning.md
-│       ├── onboarding-initialization.md
-│       ├── design-digest-distillation.md
-│       ├── engineering-lessons-distillation.md
-│       └── refactor-planning.md
-└── assets/
-    └── templates/
-        ├── scope-selection.template.md
-        ├── onboarding.template.md
-        ├── design-digest.template.md
-        ├── engineering-lessons.template.md
-        └── refactor-plan.template.md
-```
-
----
+8. **No universal best practices from one module**  
+   Lessons extracted from a module must preserve source context and applicability conditions.
 
 ## Target Repository Output Layout
 
-When this skill is used on a repository, write repo-mentor outputs under the target repository root:
-
 ```text
 .repo-mentor/
-├── index.md                         # optional but recommended
-├── scope-selection.md               # optional, repo-level, only when Scope Discovery is used
+├── index.md                         # optional
+├── scope-selection.md               # optional, only for Scope Discovery
+├── repo-snapshot.json               # optional, only for Scope Discovery
 └── modules/
     └── <module-id>/
         ├── snapshot.json
@@ -179,67 +65,38 @@ When this skill is used on a repository, write repo-mentor outputs under the tar
         └── refactor-plan.md         # only when triggered
 ```
 
-Rules:
+Derive `<module-id>` from the normalized module scope path, e.g. `src/power_manager -> src-power-manager`.
 
-- `.repo-mentor/` belongs at the repository root.
-- Module-specific outputs must be placed under `.repo-mentor/modules/<module-id>/`.
-- `engineering-lessons.md` is module-level in v1. It may later be aggregated into a repo-level playbook only through an explicit workflow.
-- `scope-selection.md` is repo-level because it helps choose or refine module scope.
-- `index.md` is repo-level and may list analyzed modules, note locations, status, and last-updated dates.
+## Workflow
 
-### Module ID Rule
+### 1. Confirm Scope And Mode
 
-Derive `<module-id>` from the normalized module scope path to avoid collisions.
+Confirm:
 
-Recommended normalization:
+- repository root;
+- module scope;
+- module ID;
+- user goal;
+- whether the user wants `document-first` or `conversation-first` mode;
+- whether a module-specific snapshot already exists.
 
-1. Trim leading and trailing slashes.
-2. Replace `/`, `\`, whitespace, and `_` with `-`.
-3. Convert to lowercase.
-4. Remove characters that are unsuitable for file or directory names.
-5. If the scope is `.`, use `repo-root`, but prefer Scope Discovery before analyzing repo root.
+If the scope is missing, too broad, or set to repo root, use Scope Discovery.
 
-Examples:
+### 2. Run Or Consume Scoped Snapshot
 
-```text
-src/power_manager      -> src-power-manager
-services/can_gateway   -> services-can-gateway
-modules/DiagCore       -> modules-diagcore
-app/common             -> app-common
-lib/common             -> lib-common
-```
-
----
-
-## Default Workflow
-
-Use the default workflow when the user already has a module scope.
-
-### Step 1: Confirm Scope
-
-Identify or confirm:
-
-- Repository root.
-- Module scope.
-- Module ID.
-- User goal.
-- Whether the user wants document-first or conversation-first mode.
-- Any known files, components, or workflows of interest.
-- Whether a module-specific snapshot already exists.
-
-If the scope is missing, too broad, or set to repository root, consider the optional Scope Discovery workflow.
-
-### Step 2: Run Or Consume Scoped Snapshot
-
-If appropriate, ask the user to run:
+If needed, ask the user to run:
 
 ```bash
-python scripts/codebase_analyzer.py /path/to/repo   --scope path/to/module   --max-depth 2   --ignore third_party   --ignore generated   --json   --output .repo-mentor/modules/<module-id>/snapshot.json
+python scripts/codebase_analyzer.py /path/to/repo \
+  --scope path/to/module \
+  --max-depth 2 \
+  --ignore third_party \
+  --ignore generated \
+  --json \
+  --output .repo-mentor/modules/<module-id>/snapshot.json
 ```
 
-Use the generated snapshot as structural evidence.
-
-For detailed snapshot rules, follow:
+Follow:
 
 ```text
 references/analyzer-output-contract.md
@@ -247,17 +104,21 @@ references/snapshot-consumption-contract.md
 references/workflows/scoped-snapshot-intake.md
 ```
 
-### Step 3: Choose Interaction Mode
+### 3. Choose Interaction Mode
 
-Support both modes:
-
-#### Document-First Mode
+#### Document-first
 
 Use when the user asks to immediately generate or update repo-mentor notes.
 
-Proceed to initialize or update `onboarding.md`, `design-digest.md`, and `engineering-lessons.md` when reusable lessons exist.
+Create/update:
 
-#### Conversation-First Mode
+```text
+.repo-mentor/modules/<module-id>/onboarding.md
+.repo-mentor/modules/<module-id>/design-digest.md
+.repo-mentor/modules/<module-id>/engineering-lessons.md    # when reusable lessons exist
+```
+
+#### Conversation-first
 
 Use when the user wants to ask code questions first and summarize later.
 
@@ -267,305 +128,81 @@ Follow:
 references/workflows/conversation-first-learning.md
 ```
 
-In this mode, do not generate or update files until the user explicitly asks to summarize or persist notes.
+Do not write files until the user asks to summarize or persist notes.
 
-### Step 4: Initialize Or Update Onboarding Notes
+### 4. Answer Technical Questions
 
-Create or update:
+When answering:
 
-```text
-.repo-mentor/modules/<module-id>/onboarding.md
-```
+- stay within scope;
+- cite code paths/symbols when possible;
+- separate fact, inference, and uncertainty;
+- capture module-specific observations for `design-digest.md`;
+- capture reusable lessons for `engineering-lessons.md`;
+- avoid turning lessons into refactor plans unless refactor is triggered.
 
-Use:
+### 5. Summarize Into Notes When Asked
 
-```text
-assets/templates/onboarding.template.md
-references/workflows/onboarding-initialization.md
-```
+Route content as follows:
 
-Keep this document beginner-friendly and concise.
+- Beginner-relevant stable knowledge -> `onboarding.md`
+- Module-specific design details -> `design-digest.md`
+- Reusable engineering guidance -> `engineering-lessons.md`
+- Refactor planning -> `refactor-plan.md` only if triggered
+- Scope choice -> `scope-selection.md`
 
-### Step 5: Initialize Or Update Design Digest
+## Scope Discovery
 
-Create or update:
+Use only when:
 
-```text
-.repo-mentor/modules/<module-id>/design-digest.md
-```
+- the user has no clear module scope;
+- scope is repo root;
+- the selected scope is too large;
+- module boundaries are unclear;
+- the conversation repeatedly crosses the current scope.
 
-Use:
-
-```text
-assets/templates/design-digest.template.md
-references/workflows/design-digest-distillation.md
-```
-
-This is the primary place for module-specific design understanding:
-
-- Design intent.
-- Key abstractions.
-- Important workflows.
-- Engineering trade-offs.
-- Hidden assumptions.
-- Module-specific observations.
-- Open questions.
-
-### Step 6: Distill Engineering Lessons When Reusable Knowledge Exists
-
-Create or update:
-
-```text
-.repo-mentor/modules/<module-id>/engineering-lessons.md
-```
-
-Use:
-
-```text
-assets/templates/engineering-lessons.template.md
-references/workflows/engineering-lessons-distillation.md
-```
-
-This is the primary place for reusable engineering knowledge:
-
-- Reusable design takeaways.
-- Lessons learned.
-- Design heuristics.
-- Anti-patterns to avoid.
-- Applicability conditions.
-- When not to reuse an idea.
-- Links back to source evidence in `design-digest.md` and code.
-
-### Step 7: Answer Technical Questions
-
-When the user asks detailed technical questions:
-
-1. Answer within the current module scope.
-2. Separate evidence, inference, and uncertainty.
-3. Capture candidate module-specific observations for `design-digest.md`.
-4. Capture reusable lessons for `engineering-lessons.md`.
-5. Keep onboarding-level information concise.
-6. Put deeper technical details into `design-digest.md` only when the user wants notes updated.
-7. Put uncertain items into `Open Questions` when summarizing or updating notes.
-
-If the user is in conversation-first mode, defer file updates until the user asks to summarize or persist the discussion.
-
-### Step 8: Summarize Conversation Into Notes When Asked
-
-When the user asks to summarize, distill, persist, or update notes from the conversation:
-
-- Put beginner-relevant stable knowledge in `.repo-mentor/modules/<module-id>/onboarding.md`.
-- Put module-specific design understanding in `.repo-mentor/modules/<module-id>/design-digest.md`.
-- Put reusable engineering knowledge in `.repo-mentor/modules/<module-id>/engineering-lessons.md`.
-- Put uncertain or unresolved items in `Open Questions`.
-- Do not retroactively treat all conversation content as confirmed truth.
-- Classify content as facts, inferences, module-specific observations, reusable lessons, and open questions.
-
-### Step 9: Create Refactor Plan Only If Triggered
-
-If the conversation includes refactoring, technical debt, maintainability issues, design smells, or architecture evolution, create or update:
-
-```text
-.repo-mentor/modules/<module-id>/refactor-plan.md
-```
-
-Use:
-
-```text
-assets/templates/refactor-plan.template.md
-references/workflows/refactor-planning.md
-```
-
-A refactor plan must include:
-
-- Trigger.
-- Scope.
-- Observed pain points.
-- What should be preserved.
-- Goals.
-- Non-goals.
-- Proposed safe steps.
-- Risk assessment.
-- Validation strategy.
-- Rollback strategy.
-
----
-
-## Optional Workflow: Scope Discovery
-
-Use Scope Discovery only when:
-
-- The user has not provided a module scope.
-- The selected scope is the repository root.
-- The selected scope appears too large.
-- The repository has unclear or weak module boundaries.
-- The conversation repeatedly crosses the current scope.
-- The user explicitly asks for help choosing a module scope.
-
-Scope Discovery may use a shallow repository-level snapshot, but only to recommend or refine a manageable module scope.
+Scope Discovery may use a shallow repo-level snapshot, but only to recommend or refine a manageable module scope.
 
 It must not produce:
 
-- Whole-repository design conclusions.
-- Whole-repository architecture judgments.
-- Global technical debt lists.
-- Global refactor plans.
+- whole-repository architecture conclusions;
+- global technical debt lists;
+- global refactor plans.
 
-If Scope Discovery is used, create or update:
-
-```text
-.repo-mentor/scope-selection.md
-```
-
-Use:
-
-```text
-assets/templates/scope-selection.template.md
-references/workflows/scope-discovery.md
-```
-
-If a repo-level snapshot is needed during Scope Discovery, write it as:
-
-```text
-.repo-mentor/repo-snapshot.json
-```
-
-Do not use `repo-snapshot.json` as input for module-level onboarding or design conclusions. Use it only for scope selection.
-
----
-
-## Output Documents
-
-### Always Maintain When Activated For A Scoped Module And Summary Is Requested
-
-```text
-.repo-mentor/modules/<module-id>/onboarding.md
-.repo-mentor/modules/<module-id>/design-digest.md
-```
-
-In conversation-first mode, these may be deferred until the user asks to summarize or update notes.
-
-### Maintain When Reusable Lessons Exist
-
-```text
-.repo-mentor/modules/<module-id>/engineering-lessons.md
-```
-
-This document should be created or updated when the conversation or design digest contains reusable takeaways, lessons, heuristics, or anti-patterns.
-
-### Generated By Analyzer For A Scoped Module
-
-```text
-.repo-mentor/modules/<module-id>/snapshot.json
-```
-
-### Conditional Module Output
-
-```text
-.repo-mentor/modules/<module-id>/refactor-plan.md
-```
-
-Create only when refactor-related discussion exists.
-
-### Optional Repo-Level Outputs
+Output:
 
 ```text
 .repo-mentor/scope-selection.md
-.repo-mentor/repo-snapshot.json
-.repo-mentor/index.md
+.repo-mentor/repo-snapshot.json       # optional evidence only for scope selection
 ```
 
-Create only when needed.
+## Document Routing
 
----
+### `onboarding.md`
 
-## Document Routing Rules
+Use for module scope, short responsibility summary, practical mental model, key concepts, reading path, top-level structure, newcomer pitfalls, and links to deeper notes.
 
-Use these routing rules when deciding where information belongs.
+Keep concise.
 
-### Put In `onboarding.md`
+### `design-digest.md`
 
-Use for:
+Use for module-specific design intent, inferred intent, abstractions, workflows, trade-offs, hidden assumptions, evidence, module-specific observations, and open questions.
 
-- Module scope.
-- Short module responsibility summary.
-- Practical mental model.
-- Key concepts for newcomers.
-- Suggested reading path.
-- Top-level structure.
-- Common newcomer pitfalls.
-- Links to deeper design notes.
+Mark reusable lesson candidates, but distill them separately.
 
-Do not put deep implementation details here.
+### `engineering-lessons.md`
 
-### Put In `design-digest.md`
+Use for reusable design takeaways, lessons learned, heuristics, anti-patterns, applicability conditions, when not to reuse an idea, and evidence links.
 
-Use for module-specific design learning:
+Do not store module-specific implementation detail here.
 
-- Design intent.
-- Inferred intent.
-- Key abstractions.
-- Important workflows.
-- Engineering trade-offs.
-- Hidden assumptions.
-- Evidence.
-- Module-specific takeaways and lessons.
-- Open questions.
+### `refactor-plan.md`
 
-Do not overload this document with generalized guidance. Distill reusable guidance into `engineering-lessons.md`.
+Use only when refactor-related discussion exists. Include trigger, scope, pain points, what to preserve, goals, non-goals, safe steps, risks, validation, and rollback.
 
-### Put In `engineering-lessons.md`
+## Evidence Style
 
-Use for reusable engineering knowledge distilled from the scoped module:
-
-- Reusable design takeaways.
-- Lessons learned.
-- Design heuristics.
-- Anti-patterns to avoid.
-- Applicability conditions.
-- When not to reuse an idea.
-- Links back to evidence in `design-digest.md` and code.
-
-Do not put module-specific implementation details here.
-
-Do not present lessons as universal best practices. Preserve context and applicability.
-
-### Put In `refactor-plan.md`
-
-Use for:
-
-- Refactor triggers.
-- Pain points.
-- Design smells.
-- What should be preserved.
-- Refactor goals and non-goals.
-- Step-by-step safe plan.
-- Risks.
-- Validation.
-- Rollback.
-
-Only update this document when the user raises refactor-related topics.
-
-### Put In `scope-selection.md`
-
-Use for:
-
-- Candidate module scopes.
-- Recommended initial scope.
-- Scope risks.
-- Boundary rules.
-- Excluded areas.
-- Scope-related open questions.
-
-Only update this document during Scope Discovery.
-
----
-
-## Evidence And Inference Style
-
-When answering or updating documents, use explicit labels.
-
-Example:
+Use explicit labels when useful:
 
 ```markdown
 Fact:
@@ -582,75 +219,88 @@ Open Question:
 - It is not yet clear whether this separation is intentional or historical.
 ```
 
-Avoid presenting inferred design intent as confirmed fact.
-
----
-
-## Refactor Safety Rules
-
-When producing refactor advice:
-
-- Preserve good existing design choices.
-- Prefer small, reversible steps.
-- Avoid large rewrites.
-- Avoid cross-scope changes unless the user explicitly expands scope.
-- Include validation strategy.
-- Include rollback strategy.
-- Separate lessons learned from actionable refactor steps.
-- Do not recommend refactoring solely because a file is large.
-
----
-
 ## Bundled Resources
 
-### Scripts
-
-```text
-scripts/codebase_analyzer.py
-```
-
-Used to generate compact structural snapshots for scoped modules.
-
-### References
-
-```text
-references/analyzer-output-contract.md
-references/snapshot-consumption-contract.md
-references/document-routing-contract.md
-references/workflows/scope-discovery.md
-references/workflows/scoped-snapshot-intake.md
-references/workflows/conversation-first-learning.md
-references/workflows/onboarding-initialization.md
-references/workflows/design-digest-distillation.md
-references/workflows/engineering-lessons-distillation.md
-references/workflows/refactor-planning.md
-```
-
-### Templates
-
-```text
-assets/templates/scope-selection.template.md
-assets/templates/onboarding.template.md
-assets/templates/design-digest.template.md
-assets/templates/engineering-lessons.template.md
-assets/templates/refactor-plan.template.md
-```
-
----
+- `scripts/codebase_analyzer.py`
+- `references/*.md`
+- `references/workflows/*.md`
+- `assets/templates/*.md`
 
 ## Do Not
-
-Do not:
 
 - Analyze the whole repository by default.
 - Treat README/docs/tests/comments as authoritative design truth by default.
 - Generate repo-wide architecture conclusions during Scope Discovery.
 - Create refactor plans from snapshot data alone.
-- Judge code quality without evidence.
 - Hide uncertainty.
 - Overload `onboarding.md` with deep technical details.
-- Expand beyond the selected module scope without user confirmation.
-- Mix outputs from different modules in the same document directory.
-- Store module-specific outputs directly under `.repo-mentor/` when `.repo-mentor/modules/<module-id>/` should be used.
-- Force document generation in conversation-first mode before the user asks to summarize or update notes.
+- Expand beyond scope without user confirmation.
 - Present module-derived lessons as universal best practices without applicability conditions.
+
+## Detailed Agent Behavior Rules
+
+### Conversation-First Mode
+
+When the user says they want to ask code questions first, do not force document generation. Maintain an implicit learning buffer in the conversation:
+
+- facts observed;
+- inferences;
+- module-specific observations;
+- reusable engineering lesson candidates;
+- hidden assumptions;
+- open questions;
+- possible refactor topics.
+
+When the user later asks to summarize, convert only stable and supported conclusions into files. Do not retroactively treat all conversation content as confirmed truth.
+
+### Document-First Mode
+
+When the user asks to generate notes immediately, initialize module documents from templates. Still avoid overclaiming. If evidence is weak, write items as `Inference` or `Open Questions`.
+
+### Engineering Lessons Distillation
+
+`engineering-lessons.md` is not a duplicate of `design-digest.md`. It should contain reusable guidance with:
+
+- source context;
+- what worked or failed;
+- why it matters;
+- how to reuse the idea;
+- applicability conditions;
+- when not to reuse the idea;
+- evidence links back to code or `design-digest.md`.
+
+Avoid writing universal best practices such as "always use X" unless the applicability conditions are explicitly constrained.
+
+### Refactor Safety
+
+When refactoring is triggered, always include:
+
+- what triggered the refactor discussion;
+- what is in scope and out of scope;
+- what should be preserved from the existing design;
+- goals and non-goals;
+- small reversible steps;
+- risk assessment;
+- validation strategy;
+- rollback strategy.
+
+Do not suggest large rewrites when a smaller behavioral-preserving plan can reduce risk.
+
+### Scope Boundary Handling
+
+If a user question crosses scope:
+
+1. answer only at boundary/interface level;
+2. say what extra scope would be needed for a deeper answer;
+3. ask whether the user wants to update scope;
+4. do not silently analyze the whole repository.
+
+### Evidence Strength
+
+Use confidence labels when helpful:
+
+- `High`: supported by direct code evidence or user confirmation;
+- `Medium`: supported by multiple structural clues but not directly confirmed;
+- `Low`: plausible inference that needs verification.
+
+Low-confidence content should usually go to `Open Questions` rather than stable conclusions.
