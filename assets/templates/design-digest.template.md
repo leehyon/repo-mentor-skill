@@ -9,7 +9,9 @@
 
 This document summarizes the current understanding of the scoped module. Inferred design intent must be explicitly marked as inference.
 
-This document is a living design-learning note, not an official source of truth unless the team explicitly promotes it.
+This document is a living module-specific design-learning note, not an official source of truth unless the team explicitly promotes it.
+
+Reusable engineering guidance should be distilled into `engineering-lessons.md` instead of being duplicated here.
 
 ---
 
@@ -88,8 +90,6 @@ Use this only when supported by explicit code structure, naming, comments, tests
 
 Use careful wording.
 
-Example:
-
 ```text
 Inference: The module likely separates X from Y to reduce coupling between A and B.
 ```
@@ -110,28 +110,11 @@ Current inferred intent:
 - Collaborators: `<TODO>`
 - Boundary: `<TODO>`
 - Evidence: `<TODO>`
-- Why it matters: `<TODO>`
-
-### `<TODO: Abstraction Name>`
-
-- Responsibility: `<TODO>`
-- Collaborators: `<TODO>`
-- Boundary: `<TODO>`
-- Evidence: `<TODO>`
-- Why it matters: `<TODO>`
+- Why it matters in this module: `<TODO>`
 
 ---
 
 ## Important Workflows
-
-### `<TODO: Workflow Name>`
-
-- Trigger: `<TODO>`
-- Main path: `<TODO>`
-- Key files: `<TODO>`
-- Boundary interactions: `<TODO>`
-- Failure / fallback behavior: `<TODO>`
-- Evidence: `<TODO>`
 
 ### `<TODO: Workflow Name>`
 
@@ -150,55 +133,33 @@ Current inferred intent:
 
 - Context: `<TODO>`
 - Chosen approach: `<TODO>`
-- Benefit: `<TODO>`
-- Cost: `<TODO>`
+- Benefit in this module: `<TODO>`
+- Cost in this module: `<TODO>`
 - Evidence: `<TODO>`
-- When this approach is reusable: `<TODO>`
-- When to avoid it: `<TODO>`
+- Candidate reusable lesson: `<TODO: link or note for engineering-lessons.md>`
 
 ---
 
-## Takeaways
+## Module-Specific Takeaways And Lessons
 
-Reusable lessons from good design. Each takeaway should be written as a transferable engineering principle.
+This section records observations specific to this module.
 
-### Takeaway: `<TODO: short principle>`
+Reusable principles should be distilled into `engineering-lessons.md`.
 
-- What the module does well: `<TODO>`
-- Why it works: `<TODO>`
-- Where it appears: `<TODO>`
-- How to reuse this idea elsewhere: `<TODO>`
+### Module-Specific Takeaway: `<TODO>`
 
-### Takeaway: `<TODO: short principle>`
+- Observation: `<TODO>`
+- Why it matters in this module: `<TODO>`
+- Evidence: `<TODO>`
+- Reusable lesson candidate: `<TODO: yes/no/link>`
 
-- What the module does well: `<TODO>`
-- Why it works: `<TODO>`
-- Where it appears: `<TODO>`
-- How to reuse this idea elsewhere: `<TODO>`
-
----
-
-## Lessons Learned
-
-Lessons from problematic, risky, or confusing design.
-
-Important: Lessons are not automatically refactor requests.
-
-### Lesson: `<TODO: short lesson>`
+### Module-Specific Lesson: `<TODO>`
 
 - Observed issue: `<TODO>`
-- Why it matters: `<TODO>`
+- Why it matters in this module: `<TODO>`
 - Evidence: `<TODO>`
-- Impact on maintainability: `<TODO>`
 - Possible future direction: `<TODO>`
-
-### Lesson: `<TODO: short lesson>`
-
-- Observed issue: `<TODO>`
-- Why it matters: `<TODO>`
-- Evidence: `<TODO>`
-- Impact on maintainability: `<TODO>`
-- Possible future direction: `<TODO>`
+- Reusable lesson candidate: `<TODO: yes/no/link>`
 
 ---
 
@@ -222,10 +183,6 @@ Current hidden assumptions:
   - Evidence: `<TODO>`
   - Risk if violated: `<TODO>`
 
-- `<TODO: assumption>`
-  - Evidence: `<TODO>`
-  - Risk if violated: `<TODO>`
-
 ---
 
 ## Open Questions
@@ -234,7 +191,21 @@ Questions that still need evidence or user confirmation.
 
 - `<TODO: question>`
 - `<TODO: question>`
-- `<TODO: question>`
+
+---
+
+## Links To Distilled Engineering Lessons
+
+Reusable lessons distilled from this module are maintained in:
+
+```text
+engineering-lessons.md
+```
+
+Relevant links:
+
+- `<TODO: engineering-lessons.md#section>`
+- `<TODO>`
 
 ---
 

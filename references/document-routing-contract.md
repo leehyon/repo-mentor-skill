@@ -13,6 +13,7 @@ Module-specific outputs:
 ```text
 .repo-mentor/modules/<module-id>/onboarding.md
 .repo-mentor/modules/<module-id>/design-digest.md
+.repo-mentor/modules/<module-id>/engineering-lessons.md
 .repo-mentor/modules/<module-id>/refactor-plan.md
 .repo-mentor/modules/<module-id>/snapshot.json
 ```
@@ -46,13 +47,13 @@ Use for information that helps a newcomer quickly get oriented:
 
 Keep this file concise.
 
-Do not put deep technical details, long workflow analysis, or refactor plans here.
+Do not put deep technical details, long workflow analysis, reusable engineering lessons, or refactor plans here.
 
 ---
 
 ### Route To `design-digest.md`
 
-Use for design learning and experience distillation:
+Use for module-specific design learning and deep technical understanding:
 
 - current understanding
 - confirmed design intent
@@ -60,13 +61,32 @@ Use for design learning and experience distillation:
 - key abstractions
 - important workflows
 - engineering trade-offs
-- takeaways from good design
-- lessons learned from confusing or risky design
 - hidden assumptions
+- module-specific observations
+- module-specific takeaways and lessons
 - evidence
 - open questions
 
-This is the primary knowledge-distillation document.
+Do not overload this file with generalized guidance. Distill reusable principles into `engineering-lessons.md`.
+
+---
+
+### Route To `engineering-lessons.md`
+
+Use for reusable engineering knowledge distilled from the scoped module:
+
+- reusable design takeaways
+- lessons learned
+- design heuristics
+- anti-patterns to avoid
+- applicability conditions
+- when to reuse an idea
+- when not to reuse an idea
+- links back to evidence in `design-digest.md` and code
+
+Do not put module-specific implementation details here.
+
+Do not present lessons as universal best practices. Preserve source context and applicability.
 
 ---
 
@@ -134,10 +154,12 @@ Use:
 
 ---
 
-## Promotion Rules
+## Promotion And Distillation Rules
 
 Promote information to `onboarding.md` only when it is stable, beginner-relevant, and useful for orientation.
 
-Keep detailed explanations in `design-digest.md`.
+Keep detailed module-specific explanations in `design-digest.md`.
+
+Distill reusable engineering guidance into `engineering-lessons.md` only when it can be expressed with source context and applicability conditions.
 
 Move actionable refactor content into `refactor-plan.md` only when the user has triggered refactor planning.

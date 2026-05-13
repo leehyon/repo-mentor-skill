@@ -1,17 +1,17 @@
 ---
 name: repo-mentor
-description: Helps engineers learn the design of a scoped codebase module, distill design intent, engineering trade-offs, takeaways, and lessons, and maintain module-specific onboarding, design-digest, and refactor notes through conversation.
+description: Helps engineers learn the design of a scoped codebase module, distill design intent, engineering trade-offs, reusable engineering lessons, and maintain module-specific onboarding, design-digest, engineering-lessons, and refactor notes through conversation.
 ---
 
 # repo-mentor
 
 ## Mission
 
-`repo-mentor` is a scoped codebase mentoring skill.
+`repo-mentor` is a scoped codebase mentoring and engineering knowledge distillation skill.
 
-It helps engineers understand the current design of a selected module, distill the original authors' design intent and engineering trade-offs, extract reusable takeaways and lessons learned, and maintain durable Markdown notes through conversation.
+It helps engineers understand the current design of a selected module, distill the original authors' design intent and engineering trade-offs, extract reusable engineering lessons, and maintain durable Markdown notes through conversation.
 
-The skill is optimized for learning and maintaining an unfamiliar codebase module over time, not for producing one-off repository summaries or whole-repository architecture judgments.
+The skill is optimized for learning and maintaining an unfamiliar codebase module over time, and for turning module-specific design understanding into reusable engineering knowledge. It is not for producing one-off repository summaries or whole-repository architecture judgments.
 
 ---
 
@@ -24,9 +24,10 @@ Use this skill when the user wants to:
 - Learn why the existing code may have been designed this way.
 - Extract design takeaways from good implementation choices.
 - Extract lessons learned from confusing, risky, or problematic design choices.
+- Distill reusable engineering lessons from module-specific design details.
 - Ask detailed technical questions about the selected module.
 - Explore code through conversation first, then summarize into durable notes later.
-- Maintain living onboarding and design-learning notes.
+- Maintain living onboarding, design-learning, and engineering-lessons notes.
 - Discuss safe, scoped refactoring or architecture evolution.
 
 Do not use this skill for broad, whole-repository analysis unless the user explicitly needs help selecting or refining a module scope.
@@ -90,16 +91,31 @@ In conversation-first mode:
 - Answer scoped code questions directly.
 - Do not force file generation or file updates.
 - Keep answers structured so they can be summarized later.
-- Track useful observations in the conversation as facts, inferences, candidate takeaways, candidate lessons, open questions, and possible refactor topics.
+- Track useful observations in the conversation as facts, inferences, candidate takeaways, candidate lessons, hidden assumptions, open questions, and possible refactor topics.
 - When the user asks to summarize, route stable conclusions into the correct repo-mentor documents.
 
 ### 7. Keep Onboarding Concise
 
 `onboarding.md` should help a newcomer build a practical mental model quickly.
 
-Move detailed design explanations, workflows, trade-offs, assumptions, takeaways, and lessons into `design-digest.md`.
+Move detailed design explanations, workflows, trade-offs, assumptions, and module-specific observations into `design-digest.md`.
 
-### 8. Refactor Only When Triggered
+### 8. Distill Reusable Engineering Lessons Separately
+
+`engineering-lessons.md` captures reusable engineering knowledge distilled from the scoped module.
+
+It should contain transferable design takeaways, lessons learned, design heuristics, anti-patterns, applicability conditions, and links back to evidence.
+
+Do not use `engineering-lessons.md` for module-specific implementation details. Keep those in `design-digest.md`.
+
+Do not present lessons as universal best practices. Prefer applicability-aware guidance such as:
+
+- Use this when...
+- Avoid this when...
+- This trade-off works if...
+- This lesson may not apply when...
+
+### 9. Refactor Only When Triggered
 
 Do not create or update `refactor-plan.md` from snapshot data alone.
 
@@ -115,8 +131,6 @@ Only create or update it when the user discusses:
 ---
 
 ## Skill Package Layout
-
-This skill follows the Agent Skills folder model where the skill folder contains a required `SKILL.md` and may bundle scripts, references, assets, templates, and other resources.
 
 Expected package layout:
 
@@ -135,12 +149,14 @@ repo-mentor/
 │       ├── conversation-first-learning.md
 │       ├── onboarding-initialization.md
 │       ├── design-digest-distillation.md
+│       ├── engineering-lessons-distillation.md
 │       └── refactor-planning.md
 └── assets/
     └── templates/
         ├── scope-selection.template.md
         ├── onboarding.template.md
         ├── design-digest.template.md
+        ├── engineering-lessons.template.md
         └── refactor-plan.template.md
 ```
 
@@ -159,6 +175,7 @@ When this skill is used on a repository, write repo-mentor outputs under the tar
         ├── snapshot.json
         ├── onboarding.md
         ├── design-digest.md
+        ├── engineering-lessons.md
         └── refactor-plan.md         # only when triggered
 ```
 
@@ -166,9 +183,9 @@ Rules:
 
 - `.repo-mentor/` belongs at the repository root.
 - Module-specific outputs must be placed under `.repo-mentor/modules/<module-id>/`.
+- `engineering-lessons.md` is module-level in v1. It may later be aggregated into a repo-level playbook only through an explicit workflow.
 - `scope-selection.md` is repo-level because it helps choose or refine module scope.
 - `index.md` is repo-level and may list analyzed modules, note locations, status, and last-updated dates.
-- Do not put module-specific outputs directly in `.repo-mentor/` unless there is only one temporary prototype session and the user explicitly requests it.
 
 ### Module ID Rule
 
@@ -238,7 +255,7 @@ Support both modes:
 
 Use when the user asks to immediately generate or update repo-mentor notes.
 
-Proceed to initialize or update `onboarding.md` and `design-digest.md`.
+Proceed to initialize or update `onboarding.md`, `design-digest.md`, and `engineering-lessons.md` when reusable lessons exist.
 
 #### Conversation-First Mode
 
@@ -284,41 +301,67 @@ assets/templates/design-digest.template.md
 references/workflows/design-digest-distillation.md
 ```
 
-This is the primary place for:
+This is the primary place for module-specific design understanding:
 
 - Design intent.
 - Key abstractions.
 - Important workflows.
 - Engineering trade-offs.
-- Takeaways.
-- Lessons learned.
 - Hidden assumptions.
+- Module-specific observations.
 - Open questions.
 
-### Step 6: Answer Technical Questions
+### Step 6: Distill Engineering Lessons When Reusable Knowledge Exists
+
+Create or update:
+
+```text
+.repo-mentor/modules/<module-id>/engineering-lessons.md
+```
+
+Use:
+
+```text
+assets/templates/engineering-lessons.template.md
+references/workflows/engineering-lessons-distillation.md
+```
+
+This is the primary place for reusable engineering knowledge:
+
+- Reusable design takeaways.
+- Lessons learned.
+- Design heuristics.
+- Anti-patterns to avoid.
+- Applicability conditions.
+- When not to reuse an idea.
+- Links back to source evidence in `design-digest.md` and code.
+
+### Step 7: Answer Technical Questions
 
 When the user asks detailed technical questions:
 
 1. Answer within the current module scope.
 2. Separate evidence, inference, and uncertainty.
-3. Capture candidate takeaways and lessons in the answer.
-4. Keep onboarding-level information concise.
-5. Put deeper technical details into `design-digest.md` only when the user wants notes updated.
-6. Put uncertain items into `Open Questions` when summarizing or updating notes.
+3. Capture candidate module-specific observations for `design-digest.md`.
+4. Capture reusable lessons for `engineering-lessons.md`.
+5. Keep onboarding-level information concise.
+6. Put deeper technical details into `design-digest.md` only when the user wants notes updated.
+7. Put uncertain items into `Open Questions` when summarizing or updating notes.
 
 If the user is in conversation-first mode, defer file updates until the user asks to summarize or persist the discussion.
 
-### Step 7: Summarize Conversation Into Notes When Asked
+### Step 8: Summarize Conversation Into Notes When Asked
 
 When the user asks to summarize, distill, persist, or update notes from the conversation:
 
 - Put beginner-relevant stable knowledge in `.repo-mentor/modules/<module-id>/onboarding.md`.
-- Put design intent, workflows, trade-offs, takeaways, lessons, and assumptions in `.repo-mentor/modules/<module-id>/design-digest.md`.
+- Put module-specific design understanding in `.repo-mentor/modules/<module-id>/design-digest.md`.
+- Put reusable engineering knowledge in `.repo-mentor/modules/<module-id>/engineering-lessons.md`.
 - Put uncertain or unresolved items in `Open Questions`.
 - Do not retroactively treat all conversation content as confirmed truth.
-- Classify content as facts, inferences, takeaways, lessons, and open questions.
+- Classify content as facts, inferences, module-specific observations, reusable lessons, and open questions.
 
-### Step 8: Create Refactor Plan Only If Triggered
+### Step 9: Create Refactor Plan Only If Triggered
 
 If the conversation includes refactoring, technical debt, maintainability issues, design smells, or architecture evolution, create or update:
 
@@ -391,32 +434,6 @@ Do not use `repo-snapshot.json` as input for module-level onboarding or design c
 
 ---
 
-## Optional Repository Index
-
-When multiple modules are analyzed, create or update:
-
-```text
-.repo-mentor/index.md
-```
-
-The index may include:
-
-```markdown
-# Repo Mentor Index
-
-## Modules
-
-- `src/power_manager`
-  - Module ID: `src-power-manager`
-  - Notes: `.repo-mentor/modules/src-power-manager/`
-  - Status: active
-  - Last updated: YYYY-MM-DD
-```
-
-Do not turn `index.md` into a whole-repository design summary.
-
----
-
 ## Output Documents
 
 ### Always Maintain When Activated For A Scoped Module And Summary Is Requested
@@ -427,6 +444,14 @@ Do not turn `index.md` into a whole-repository design summary.
 ```
 
 In conversation-first mode, these may be deferred until the user asks to summarize or update notes.
+
+### Maintain When Reusable Lessons Exist
+
+```text
+.repo-mentor/modules/<module-id>/engineering-lessons.md
+```
+
+This document should be created or updated when the conversation or design digest contains reusable takeaways, lessons, heuristics, or anti-patterns.
 
 ### Generated By Analyzer For A Scoped Module
 
@@ -475,20 +500,35 @@ Do not put deep implementation details here.
 
 ### Put In `design-digest.md`
 
-Use for:
+Use for module-specific design learning:
 
 - Design intent.
 - Inferred intent.
 - Key abstractions.
 - Important workflows.
 - Engineering trade-offs.
-- Takeaways.
-- Lessons learned.
 - Hidden assumptions.
 - Evidence.
+- Module-specific takeaways and lessons.
 - Open questions.
 
-This is the core knowledge-distillation document.
+Do not overload this document with generalized guidance. Distill reusable guidance into `engineering-lessons.md`.
+
+### Put In `engineering-lessons.md`
+
+Use for reusable engineering knowledge distilled from the scoped module:
+
+- Reusable design takeaways.
+- Lessons learned.
+- Design heuristics.
+- Anti-patterns to avoid.
+- Applicability conditions.
+- When not to reuse an idea.
+- Links back to evidence in `design-digest.md` and code.
+
+Do not put module-specific implementation details here.
+
+Do not present lessons as universal best practices. Preserve context and applicability.
 
 ### Put In `refactor-plan.md`
 
@@ -582,6 +622,7 @@ references/workflows/scoped-snapshot-intake.md
 references/workflows/conversation-first-learning.md
 references/workflows/onboarding-initialization.md
 references/workflows/design-digest-distillation.md
+references/workflows/engineering-lessons-distillation.md
 references/workflows/refactor-planning.md
 ```
 
@@ -591,6 +632,7 @@ references/workflows/refactor-planning.md
 assets/templates/scope-selection.template.md
 assets/templates/onboarding.template.md
 assets/templates/design-digest.template.md
+assets/templates/engineering-lessons.template.md
 assets/templates/refactor-plan.template.md
 ```
 
@@ -611,3 +653,4 @@ Do not:
 - Mix outputs from different modules in the same document directory.
 - Store module-specific outputs directly under `.repo-mentor/` when `.repo-mentor/modules/<module-id>/` should be used.
 - Force document generation in conversation-first mode before the user asks to summarize or update notes.
+- Present module-derived lessons as universal best practices without applicability conditions.

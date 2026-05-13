@@ -27,28 +27,6 @@ Use this workflow when the user says or implies:
 
 ---
 
-## Inputs
-
-- Repository root
-- Module scope
-- Module ID
-- User's code questions
-- Optional module-specific snapshot
-- Optional files or snippets referenced by the user
-- Existing repo-mentor notes, if the user later asks to update them
-
----
-
-## Output During Exploration
-
-During the exploration phase, do not create or update files unless the user explicitly asks.
-
-Answer in the conversation only.
-
-Keep answers structured so they can be summarized later.
-
----
-
 ## Behavior During Conversation
 
 During conversation-first mode, `repo-mentor` should:
@@ -57,8 +35,8 @@ During conversation-first mode, `repo-mentor` should:
 2. Answer the user's code questions directly.
 3. Separate facts from inferences.
 4. Mark uncertainty explicitly.
-5. Capture candidate takeaways in the conversation.
-6. Capture candidate lessons learned in the conversation.
+5. Capture module-specific observations for possible `design-digest.md` updates.
+6. Capture reusable takeaways and lessons for possible `engineering-lessons.md` updates.
 7. Track open questions.
 8. Track possible refactor topics without turning them into a refactor plan unless the user asks.
 9. Ask for missing code context only when needed.
@@ -83,20 +61,24 @@ When useful, structure answers like this:
 
 - Inference: <careful inferred design intent or trade-off>
 
-## Takeaways
+## Module-Specific Observations
 
-- <candidate reusable design takeaway>
+- <candidate item for design-digest.md>
+
+## Reusable Engineering Lessons
+
+- <candidate item for engineering-lessons.md>
 
 ## Lessons / Risks
 
-- <candidate lesson or risk, if any>
+- <candidate module-specific lesson or risk, if any>
 
 ## Open Questions
 
 - <what still needs confirmation>
 ```
 
-Do not force every answer into this exact structure when the user's question is small, but preserve the distinction between facts, inference, and uncertainty.
+Do not force every answer into this exact structure when the user's question is small, but preserve the distinction between facts, inference, uncertainty, module-specific observations, and reusable lessons.
 
 ---
 
@@ -108,47 +90,13 @@ The buffer should contain:
 
 - Facts observed
 - Inferences
-- Candidate takeaways
-- Candidate lessons learned
+- Module-specific observations
+- Candidate reusable engineering lessons
 - Hidden assumptions
 - Open questions
 - Possible refactor topics
 
 This buffer does not need to be written to a file unless the user asks.
-
-If the user asks to show the current buffer, respond with:
-
-```markdown
-# Current Repo Mentor Learning Buffer
-
-## Facts
-
-- ...
-
-## Inferences
-
-- ...
-
-## Candidate Takeaways
-
-- ...
-
-## Candidate Lessons Learned
-
-- ...
-
-## Hidden Assumptions
-
-- ...
-
-## Open Questions
-
-- ...
-
-## Possible Refactor Topics
-
-- ...
-```
 
 ---
 
@@ -160,6 +108,7 @@ When the user later says something like:
 - update the notes
 - generate onboarding
 - update design-digest
+- extract engineering lessons
 - distill takeaways and lessons
 - save this into repo-mentor docs
 - persist our discussion
@@ -180,17 +129,9 @@ Put beginner-relevant stable knowledge into:
 .repo-mentor/modules/<module-id>/onboarding.md
 ```
 
-Examples:
-
-- practical mental model
-- key concepts
-- reading path
-- common newcomer pitfalls
-- links to deeper notes
-
 ### Route To `design-digest.md`
 
-Put design-learning content into:
+Put module-specific design-learning content into:
 
 ```text
 .repo-mentor/modules/<module-id>/design-digest.md
@@ -202,11 +143,28 @@ Examples:
 - design intent
 - key abstractions
 - important workflows
-- engineering trade-offs
-- takeaways
-- lessons learned
+- engineering trade-offs in this module
+- module-specific observations
 - hidden assumptions
 - open questions
+
+### Route To `engineering-lessons.md`
+
+Put reusable engineering knowledge into:
+
+```text
+.repo-mentor/modules/<module-id>/engineering-lessons.md
+```
+
+Examples:
+
+- reusable design takeaways
+- lessons learned
+- design heuristics
+- anti-patterns
+- applicability conditions
+- when not to reuse an idea
+- links back to `design-digest.md`
 
 ### Route To `refactor-plan.md`
 
@@ -238,8 +196,8 @@ Classify summarized content as:
 
 - Confirmed facts
 - Inferences
-- Takeaways
-- Lessons learned
+- Module-specific observations
+- Reusable engineering lessons
 - Hidden assumptions
 - Open questions
 - Refactor topics, only when triggered
@@ -257,6 +215,7 @@ Do not:
 - Treat provisional conversation ideas as confirmed design intent.
 - Create a refactor plan unless refactor-related discussion was triggered.
 - Move every technical detail into onboarding.
+- Present reusable lessons as universal best practices without applicability conditions.
 
 ---
 
