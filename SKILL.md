@@ -25,6 +25,7 @@ Use this skill when the user wants to:
 - Extract design takeaways from good implementation choices.
 - Extract lessons learned from confusing, risky, or problematic design choices.
 - Ask detailed technical questions about the selected module.
+- Explore code through conversation first, then summarize into durable notes later.
 - Maintain living onboarding and design-learning notes.
 - Discuss safe, scoped refactoring or architecture evolution.
 
@@ -80,13 +81,25 @@ Do not infer design intent, code quality, or refactor needs solely from snapshot
 
 Large files, candidate entry points, directory names, and config files are reading signals, not design conclusions.
 
-### 6. Keep Onboarding Concise
+### 6. Conversation-First Is Supported
+
+The user may explore the code through conversation first and defer document generation until they explicitly ask to summarize or update notes.
+
+In conversation-first mode:
+
+- Answer scoped code questions directly.
+- Do not force file generation or file updates.
+- Keep answers structured so they can be summarized later.
+- Track useful observations in the conversation as facts, inferences, candidate takeaways, candidate lessons, open questions, and possible refactor topics.
+- When the user asks to summarize, route stable conclusions into the correct repo-mentor documents.
+
+### 7. Keep Onboarding Concise
 
 `onboarding.md` should help a newcomer build a practical mental model quickly.
 
 Move detailed design explanations, workflows, trade-offs, assumptions, takeaways, and lessons into `design-digest.md`.
 
-### 7. Refactor Only When Triggered
+### 8. Refactor Only When Triggered
 
 Do not create or update `refactor-plan.md` from snapshot data alone.
 
@@ -119,6 +132,7 @@ repo-mentor/
 │   └── workflows/
 │       ├── scope-discovery.md
 │       ├── scoped-snapshot-intake.md
+│       ├── conversation-first-learning.md
 │       ├── onboarding-initialization.md
 │       ├── design-digest-distillation.md
 │       └── refactor-planning.md
@@ -192,6 +206,7 @@ Identify or confirm:
 - Module scope.
 - Module ID.
 - User goal.
+- Whether the user wants document-first or conversation-first mode.
 - Any known files, components, or workflows of interest.
 - Whether a module-specific snapshot already exists.
 
@@ -215,7 +230,29 @@ references/snapshot-consumption-contract.md
 references/workflows/scoped-snapshot-intake.md
 ```
 
-### Step 3: Initialize Or Update Onboarding Notes
+### Step 3: Choose Interaction Mode
+
+Support both modes:
+
+#### Document-First Mode
+
+Use when the user asks to immediately generate or update repo-mentor notes.
+
+Proceed to initialize or update `onboarding.md` and `design-digest.md`.
+
+#### Conversation-First Mode
+
+Use when the user wants to ask code questions first and summarize later.
+
+Follow:
+
+```text
+references/workflows/conversation-first-learning.md
+```
+
+In this mode, do not generate or update files until the user explicitly asks to summarize or persist notes.
+
+### Step 4: Initialize Or Update Onboarding Notes
 
 Create or update:
 
@@ -232,7 +269,7 @@ references/workflows/onboarding-initialization.md
 
 Keep this document beginner-friendly and concise.
 
-### Step 4: Initialize Or Update Design Digest
+### Step 5: Initialize Or Update Design Digest
 
 Create or update:
 
@@ -258,18 +295,30 @@ This is the primary place for:
 - Hidden assumptions.
 - Open questions.
 
-### Step 5: Answer Technical Questions And Update Notes
+### Step 6: Answer Technical Questions
 
 When the user asks detailed technical questions:
 
 1. Answer within the current module scope.
 2. Separate evidence, inference, and uncertainty.
-3. Update the appropriate module-specific living document.
-4. Keep onboarding concise.
-5. Put deeper technical details into `design-digest.md`.
-6. Put uncertain items into `Open Questions`.
+3. Capture candidate takeaways and lessons in the answer.
+4. Keep onboarding-level information concise.
+5. Put deeper technical details into `design-digest.md` only when the user wants notes updated.
+6. Put uncertain items into `Open Questions` when summarizing or updating notes.
 
-### Step 6: Create Refactor Plan Only If Triggered
+If the user is in conversation-first mode, defer file updates until the user asks to summarize or persist the discussion.
+
+### Step 7: Summarize Conversation Into Notes When Asked
+
+When the user asks to summarize, distill, persist, or update notes from the conversation:
+
+- Put beginner-relevant stable knowledge in `.repo-mentor/modules/<module-id>/onboarding.md`.
+- Put design intent, workflows, trade-offs, takeaways, lessons, and assumptions in `.repo-mentor/modules/<module-id>/design-digest.md`.
+- Put uncertain or unresolved items in `Open Questions`.
+- Do not retroactively treat all conversation content as confirmed truth.
+- Classify content as facts, inferences, takeaways, lessons, and open questions.
+
+### Step 8: Create Refactor Plan Only If Triggered
 
 If the conversation includes refactoring, technical debt, maintainability issues, design smells, or architecture evolution, create or update:
 
@@ -362,12 +411,6 @@ The index may include:
   - Notes: `.repo-mentor/modules/src-power-manager/`
   - Status: active
   - Last updated: YYYY-MM-DD
-
-- `services/diagnostics`
-  - Module ID: `services-diagnostics`
-  - Notes: `.repo-mentor/modules/services-diagnostics/`
-  - Status: draft
-  - Last updated: YYYY-MM-DD
 ```
 
 Do not turn `index.md` into a whole-repository design summary.
@@ -376,12 +419,14 @@ Do not turn `index.md` into a whole-repository design summary.
 
 ## Output Documents
 
-### Always Maintain When Activated For A Scoped Module
+### Always Maintain When Activated For A Scoped Module And Summary Is Requested
 
 ```text
 .repo-mentor/modules/<module-id>/onboarding.md
 .repo-mentor/modules/<module-id>/design-digest.md
 ```
+
+In conversation-first mode, these may be deferred until the user asks to summarize or update notes.
 
 ### Generated By Analyzer For A Scoped Module
 
@@ -534,6 +579,7 @@ references/snapshot-consumption-contract.md
 references/document-routing-contract.md
 references/workflows/scope-discovery.md
 references/workflows/scoped-snapshot-intake.md
+references/workflows/conversation-first-learning.md
 references/workflows/onboarding-initialization.md
 references/workflows/design-digest-distillation.md
 references/workflows/refactor-planning.md
@@ -564,3 +610,4 @@ Do not:
 - Expand beyond the selected module scope without user confirmation.
 - Mix outputs from different modules in the same document directory.
 - Store module-specific outputs directly under `.repo-mentor/` when `.repo-mentor/modules/<module-id>/` should be used.
+- Force document generation in conversation-first mode before the user asks to summarize or update notes.
